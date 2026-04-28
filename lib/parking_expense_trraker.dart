@@ -17,6 +17,7 @@ class _ParkingExpenseTrraker extends State<ParkingExpenseTrraker> {
 
    @override
    void initState(){
+     super.initState();
      Notification.init();
    }
 
@@ -32,10 +33,10 @@ class _ParkingExpenseTrraker extends State<ParkingExpenseTrraker> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(onPressed: (){
-            checkinTime = DateTime.now().minute.toInt();
+            checkinTime = DateTime.now().minute;
           }, child: Text("cheack in ")),
           ElevatedButton(onPressed: (){
-            checkoutTime = DateTime.now().minute.toInt();
+            checkoutTime = DateTime.now().minute;
           }, child: Text("check out")),
           ElevatedButton(onPressed: (){
             Notification.showNotification();
@@ -53,14 +54,14 @@ class _ParkingExpenseTrraker extends State<ParkingExpenseTrraker> {
    int extramin = totalMin - 60;
    int slot = extramin ~/ 30;
   final int totalCost  ;
-  
+
    if (extramin ~/ 30 != 0){
      slot = slot+1 ;
    }
-   totalCost = 50+ slot*30; 
-   
-   return totalCost; 
-   
+   totalCost = 50 + slot*30;
+
+   return totalCost;
+
 }
 
 }

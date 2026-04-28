@@ -1,5 +1,4 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 class Notificationservice {
 
@@ -15,6 +14,11 @@ class Notificationservice {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestExactAlarmsPermission();
+
      const AndroidInitializationSettings androidSettings = AndroidInitializationSettings(
         "@mipmap/ic_launcher");
      const DarwinInitializationSettings iosSettings = DarwinInitializationSettings(
@@ -33,7 +37,7 @@ class Notificationservice {
 
   }
 
-  void showNotification({id, title, body}){
+  Future<void> showNotification({id, title, body}) async {
 
     AndroidNotificationDetails androidDetials = AndroidNotificationDetails(
         "ut001",
@@ -57,13 +61,15 @@ class Notificationservice {
     );
 
 
-    flutterLocalNotificationsPlugin.show(0,"Quick HUB", "HI notification hitted",
-       notificationDetails);
+   // flutterLocalNotificationsPlugin.show(0,"Quick HUB", "HI notification hitted",
+    //   notificationDetails);
 
-    flutterLocalNotificationsPlugin.zonedSchedule(0,
+    await flutterLocalNotificationsPlugin.zonedSchedule(0,
        "Quick Hub",
         "NOTIFICATION",
-        tz.TZDateTime.from(DateTime.now().add(Duration(seconds: 5)), tz.local),
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)),
+
+        //tz.TZDateTime.from(DateTime.now().add(Duration(seconds: 5))),
 
     notificationDetails,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,

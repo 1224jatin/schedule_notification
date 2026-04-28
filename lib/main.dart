@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:untitled1/parking_expense_trraker.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize timezone data
-  tz.initializeTimeZones();
+  tz_data.initializeTimeZones();
   
-  // Get the device's timezone info
-  final TimezoneInfo timezoneInfo = await FlutterTimezone.getLocalTimezone();
-  
-  // Set the local location using the identifier string
-  tz.setLocalLocation(tz.getLocation(timezoneInfo.identifier));
+  try {
+    // Get the device's timezone info
+    final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+    String timeZoneName = timezoneInfo.identifier;
+
+    // Map old timezone identifiers if necessary
+    if (timeZoneName == 'Asia/Calcutta') {
+      timeZoneName = 'Asia/Kolkata';
+    }
+
+    // Set the local location
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
+  } catch (e) {
+    debugPrint('Could not set local location: $e');
+    tz.setLocalLocation(tz.getLocation('UTC'));
+  }
 
   runApp(const MyApp());
 }
