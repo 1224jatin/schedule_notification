@@ -18,6 +18,15 @@ class fcm_service  {
       return null;
     }
 
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Foreground message received");
+
+      if (message.notification != null) {
+        print("Title: ${message.notification!.title}");
+        print("Body: ${message.notification!.body}");
+      }
+    });
+
   }
 
   Future<String?> getToken() async{
