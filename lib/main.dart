@@ -1,17 +1,25 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:schedule_notification/notification_service.dart';
 import 'package:schedule_notification/parking_expense_tracker.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  print("🔙 Background message: ${message.messageId}");
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+
+  await NotificationService().init();
 
   // Initialize timezone data
   tz_data.initializeTimeZones();
-  
+
   try {
     // Get the device's timezone info
     String timeZoneName = (await FlutterTimezone.getLocalTimezone()) as String;

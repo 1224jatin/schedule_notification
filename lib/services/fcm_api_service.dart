@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class fcm_api_service{
   Future<void> sendNotification(String token)async{
-    final String url = "http://10.0.2.2:3000/send-notification";
+    final String url = "http://192.168.1.14:3000/send-notification";
 
     final response = await http.post(
       Uri.parse(url),
@@ -17,10 +17,6 @@ class fcm_api_service{
         "body":"Hi Notification"
       })
     );
-    if (response.statusCode == 200){
-      print("Node.js received the request and sent it to Firebase!");
-    }else{
-      print("Issue");
-    }
+    print("Server Response : ${response.body}");
   }
 }

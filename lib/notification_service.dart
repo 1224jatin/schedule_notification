@@ -47,15 +47,14 @@ class NotificationService {
     NotificationDetails notificationDetails =
         NotificationDetails(android: androidDetails, iOS: iosDetails);
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+    await flutterLocalNotificationsPlugin.show(
       id,
-      title ?? "Quick Hub",
-      body ?? "NOTIFICATION",
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      title,
+      body,
       notificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.wallClockTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
+
+
+
   }
 }

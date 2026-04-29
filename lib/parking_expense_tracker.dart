@@ -22,7 +22,7 @@ class _ParkingExpenseTrackerState extends State<ParkingExpenseTracker> {
   @override
   void initState(){
     super.initState();
-    fcm_service().init();
+    FCMService().init();
   }
 
   @override
@@ -57,20 +57,21 @@ class _ParkingExpenseTrackerState extends State<ParkingExpenseTracker> {
                 parameters:{
                   "user":"admin"
                 });
+                String? token = await FCMService().getToken();
+                if(token!=null){
+                  await fcm_api_service().sendNotification(token);
+                }
+
                 if (checkinTime == null || checkoutTime == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Please Check In and Out first!")),
                   );
                   return;
                 }
-                
-
-                String? deviceToken = await fcm_service().getToken();
-
-                fcm_api_service().sendNotification(deviceToken!);
 
 
-                
+
+
                 int cost = calculateTotalCharges(checkinTime!, checkoutTime!);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Total Charges: ₹$cost")),
@@ -87,7 +88,7 @@ class _ParkingExpenseTrackerState extends State<ParkingExpenseTracker> {
   int calculateTotalCharges(int checkin, int checkout) {
     // Duration logic for minutes
     int totalMin = (checkout >= checkin) ? (checkout - checkin) : (60 - checkin + checkout);
-    int totalCost = 50; 
+    int totalCost = 50;
     if (totalMin > 60) {
       int extraMin = totalMin - 60;
       int slot = (extraMin / 30).ceil();
