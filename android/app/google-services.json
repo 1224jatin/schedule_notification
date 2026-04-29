@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15149358759",
+    "project_id": "parkingexpense",
+    "storage_bucket": "parkingexpense.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15149358759:android:4354bcc9ff247f74a5c582",
+        "android_client_info": {
+          "package_name": "com.example.untitled1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ0nxIpCFClnXiyJWiJBMDEmcCaJ_aIlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

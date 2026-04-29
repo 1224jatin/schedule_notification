@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:untitled1/services/fcm_service.dart';
-import 'package:untitled1/parking_expense_trraker.dart';
+import 'package:schedule_notification/parking_expense_tracker.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -10,17 +9,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  // Initialize FCM
-  FcmService fcmService = FcmService();
-  await fcmService.init();
-
   // Initialize timezone data
   tz_data.initializeTimeZones();
   
   try {
     // Get the device's timezone info
-    final timezoneInfo = await FlutterTimezone.getLocalTimezone();
-    String timeZoneName = timezoneInfo.identifier;
+    String timeZoneName = (await FlutterTimezone.getLocalTimezone()) as String;
 
     // Map old timezone identifiers if necessary
     if (timeZoneName == 'Asia/Calcutta') {
@@ -49,7 +43,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ParkingExpenseTrraker(),
+      home: const ParkingExpenseTracker(),
     );
   }
 }
