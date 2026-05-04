@@ -34,6 +34,10 @@ app.post("/send-notification", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  r+++6
+});
+
 // Start Server
 const PORT = 3000;
 app.listen(PORT, () => {
