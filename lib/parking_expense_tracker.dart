@@ -58,10 +58,7 @@ class _ParkingExpenseTrackerState extends State<ParkingExpenseTracker> {
                   "user":"admin"
                 });
                 String? token = await FCMService().getToken();
-                if(token!=null){
-                  await fcm_api_service().sendNotification(token);
-                }
-
+                
                 if (checkinTime == null || checkoutTime == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Please Check In and Out first!")),
@@ -69,10 +66,15 @@ class _ParkingExpenseTrackerState extends State<ParkingExpenseTracker> {
                   return;
                 }
 
-
-
-
                 int cost = calculateTotalCharges(checkinTime!, checkoutTime!);
+
+                if (token != null) {
+                  await FCMApiService().sendNotification(
+                    token: token,
+                    title: "Parking Payment Successful",
+                    body: "Total Charges: ₹$cost",
+                  );
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Total Charges: ₹$cost")),
                 );

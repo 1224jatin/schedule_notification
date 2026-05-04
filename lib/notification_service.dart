@@ -32,7 +32,7 @@ class NotificationService {
 
   Future<void> showNotification({int id = 0, String? title, String? body}) async {
     AndroidNotificationDetails androidDetails = const AndroidNotificationDetails(
-        "ut001", "myNotifyApp",
+        "parking_channel", "Parking Notifications",
         importance: Importance.max,
         priority: Priority.max,
         icon: "@mipmap/ic_launcher",

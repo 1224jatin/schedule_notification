@@ -1,23 +1,38 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
-class fcm_api_service{
-  Future<void> sendNotification(String token)async{
+class FCMApiService {
+  // Replace this with your actual Render URL after deployment
+  // Example: "https://your-app-name.onrender.com"
+  static const String _baseUrl = "http://192.168.1.14:3000"; 
 
-    final String url = "http://192.168.1.14:3000/send-notification";
+  Future<void> sendNotification({
+    required String token,
+    required String title,
+    required String body,
+    Map<String, dynamic>? data,
+  }) async {
+    final String url = "$_baseUrl/send-notification";
 
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: jsonEncode({
-        "token":token,
-        "title":"Parking Alert",
-        "body":"Hi Notification"
-      })
-    );
-    print("Server Response : ${response.body}");
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "token": token,
+          "title": title,
+          "body": body,
+          "data": data ?? {},
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("✅ Notification sent: ${response.body}");
+      } else {
+        print("❌ Failed to send notification: ${response.statusCode} - ${response.body}");
+      }
+    } catch (e) {
+      print("Error calling FCM Backend: $e");
+    }
   }
 }
