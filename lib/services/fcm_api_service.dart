@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class FCMApiService {
   // Replace this with your actual Render URL after deployment
   // Example: "https://your-app-name.onrender.com"
-  static const String _baseUrl = "http://192.168.1.14:3000"; 
+  static const String _baseUrl ="https://schedule-notification-8amp.onrender.com";
 
   Future<void> sendNotification({
     required String token,
